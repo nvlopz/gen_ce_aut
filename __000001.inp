@@ -1,0 +1,45 @@
+TITLE: 
+  Variable List - 
+
+  wt : expansión regional
+  clus : pseudo conglomerados
+  strata : pseudo estratos
+  youd : [d] 1=young 15-29, 0=else
+  nac1 : [d] 1=en el extranjero; 0=en chile
+  pob : 
+  pobm : pobreza multidimensional
+    0: no pobre
+    1: pobre
+  san : 
+  viv : 
+  hac : 
+ 
+DATA: 
+  FILE = pob_with_nac1.dat ;
+VARIABLE:
+  NAMES = 
+    wt clus strata youd nac1 pob pobm san viv hac ; 
+  MISSING ARE ALL (-9999) ; 
+  CATEGORICAL = 
+    nac1
+    pob
+    pobm
+    san
+    viv
+    hac
+    ;
+  weight = wt ;
+  CLUSTER = clus ;
+  SUBPOPULATION = youd==1 ;
+  STRATIFICATION = strata ;
+usevar = nac1 pob pobm san viv hac  ; 
+ 
+ANALYSIS: 
+   TYPE = complex ;
+   ESTIMATOR = WLSMV ;
+OUTPUT: 
+stand  ; 
+ 
+MODEL: 
+nac1 pob pobm san viv hac with nac1 pob pobm san viv hac ; 
+ 
